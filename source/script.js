@@ -1,11 +1,9 @@
 var ctaElements = document.querySelectorAll(".cta");
 
-// Function to open the popup and add .cta class to the .mauticform-button element
+// Function to open the popup
 function openPopup() {
   event.preventDefault();
   var popupContainer = document.getElementById("popupContainer");
-  var mauticButton = popupContainer.querySelector(".mauticform-button");
-  mauticButton.classList.add("cta");
 
   // Add a delay before showing the popup to allow the transition to take effect
   setTimeout(function() {
