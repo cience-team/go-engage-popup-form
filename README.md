@@ -12,7 +12,7 @@ Add the following code to the `<head>` section of your HTML document:
 
 ```html
 <!-- Popup Form Styles -->
-<link rel="stylesheet" type="text/css" href="https://cience-team.github.io/moutic-form/dist/styles.min.css">
+<link rel="stylesheet" type="text/css" href="https://cience-team.github.io/go-engage-popup-form/dist/styles.min.css">
 <style>
     /* Custom styles for the Go Engage form button */
     .mauticform-button {
@@ -47,7 +47,7 @@ Add the following code at the end of the `<body>` section of your HTML document,
 
 ```html
 <!-- Popup Form Scripts -->
-<script src="https://cience-team.github.io/moutic-form/dist/script.min.js"></script>
+<script src="https://cience-team.github.io/go-engage-popup-form/dist/script.min.js"></script>
 ```
 
 ### Step 4: Customize (Optional)
