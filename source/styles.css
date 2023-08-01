@@ -53,6 +53,7 @@
 }
 .mauticform-button {
     min-width: 100% !important;
+    min-height: 50px;
     font-size: 16px !important;
     background: #3076FF !important;
     color: #fff !important;
