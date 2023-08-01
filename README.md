@@ -21,6 +21,7 @@ Add the following code to the `<head>` section of your HTML document:
     }
     .mauticform-button:hover {
         background: transparent !important;
+        color: #3076FF !important;
     }
 </style>
 <!-- -->
