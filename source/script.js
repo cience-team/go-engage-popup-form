@@ -1,12 +1,18 @@
-// Popup Form
-var ctaElements = document.querySelectorAll(".cta");
+var customPopupConfig = {
+  title: "Thanks for your submission!",
+  subtitle: "Our team will get in touch with you soon!"
+};
+
+
+const ctaElements = document.querySelectorAll(".cta");
+const popupContainer = document.getElementById("popupContainer");
+const mauticFormSubmitButton = document.getElementsByName("mauticform[submit]")[0];
+
 
 // Function to open the popup
 function openPopup() {
   event.preventDefault();
-  var popupContainer = document.getElementById("popupContainer");
 
-  // Add a delay before showing the popup to allow the transition to take effect
   setTimeout(function () {
     popupContainer.style.opacity = "1";
   }, 10);
@@ -14,118 +20,57 @@ function openPopup() {
   popupContainer.style.display = "block";
 }
 
-// Adding click event listener to all 'cta' elements
-ctaElements.forEach(function (element) {
-  element.addEventListener("click", openPopup);
-});
 
+// Function to close the popup
 function closePopup() {
-  let popupContainer = document.getElementById("popupContainer");
-  if (popupContainer) {
-    // Set opacity to 0 to start the smooth fade-out
-    popupContainer.style.opacity = "0";
+  popupContainer.style.opacity = "0";
 
-    // After a short delay, set display to "none" to hide the popup
-    setTimeout(function () {
-      popupContainer.style.display = "none";
-    }, 500); // Use the same duration (500ms) as the opacity transition
-  }
+  setTimeout(function () {
+    popupContainer.style.display = "none";
+  }, 500);
 }
 
-function displayMessage() {
-  let form_wrapper = document.getElementsByClassName("mauticform_wrapper")[0];
-  if (form_wrapper) {
-    // Set opacity to 0 to start the smooth fade-out
-    form_wrapper.style.display = "none";
 
-
-    form_message = document.getElementsByClassName("mauticform-message")[0].innerText;
-
-    console.log(form_message);
-
-    var textElement = document.createElement("p");
-
-    textElement.textContent = form_message;
-
-    let popupContainer = document.getElementById("popupContainer");
-
-    popupContainer.appendChild(textElement);
-  }
-}
-
-document.addEventListener("click", function (event) {
-  var popup = document.getElementById("popupContainer");
-  if (!popup.contains(event.target) && !event.target.classList.contains("cta")) {
-    popup.style.display = "none";
-  }
-});
-
-
-// GO Schedule Integration
-
-var customPopupConfig = {
-  title: "Thanks for your submission!",
-  subtitle: "Our team will get in touch with you soon!"
-};
-
-
-(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://schedule.cience.com/embed/embed.js", "init");
-Cal("init", { origin: "https://schedule.cience.com" });
-Cal("ui", { "styles": { "branding": { "brandColor": "#000000" } }, "hideEventTypeDetails": false });
-
-
+// Function to display "Thank you" message in the popup
 function displayMessage(customPopupConfig) {
   let form_wrapper = document.getElementsByClassName("mauticform_wrapper")[0];
   if (form_wrapper) {
 
     // Set opacity to 0 to start the smooth fade-out
-    form_wrapper.style.display = "none";
-
-    let popupContainer = document.getElementById("popupContainer");
-
-    
-    // Create a new element for the animated checkmark
-    var checkmarkElement = document.createElement("div");
-
-    checkmarkElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animated-checkmark"><path d="M5 13l4 4L19 7"></path></svg>';
-    popupContainer.appendChild(checkmarkElement);
-
-    // Add the animation class to the checkmark element
-    checkmarkElement.classList.add("animated-checkmark");
-
-    // Listen for the animationend event to remove the animation class after it finishes playing
-    checkmarkElement.addEventListener("animationend", function () {
-      checkmarkElement.classList.remove("animated-checkmark");
-    });
-
-
-    var titleElement = document.createElement("h2");
-    var subtitleElement = document.createElement("p");
-
-    titleElement.textContent = customPopupConfig.title;
-    subtitleElement.textContent = customPopupConfig.subtitle;
-
-    popupContainer.appendChild(titleElement);
-    popupContainer.appendChild(subtitleElement);
+    form_wrapper.style.opacity = "0";
 
     setTimeout(function () {
-      closePopup();
-    }, 4000);
-
+      form_wrapper.style.display = "none";
+      
+      // Create a new element for the animated checkmark
+      var checkmarkElement = document.createElement("div");
+      checkmarkElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animated-checkmark"><path d="M5 13l4 4L19 7"></path></svg>';
+      popupContainer.appendChild(checkmarkElement);
+      
+      // Add the animation class to the checkmark element
+      checkmarkElement.classList.add("animated-checkmark");
+      
+      // Listen for the animationend event to remove the animation class after it finishes playing
+      checkmarkElement.addEventListener("animationend", function () {
+        checkmarkElement.classList.remove("animated-checkmark");
+      });
+      
+      var titleElement = document.createElement("h2");
+      var subtitleElement = document.createElement("p");
+      
+      titleElement.textContent = customPopupConfig.title;
+      subtitleElement.textContent = customPopupConfig.subtitle;
+      
+      popupContainer.appendChild(titleElement);
+      popupContainer.appendChild(subtitleElement);
+      
+      setTimeout(function () {
+        closePopup();
+      }, 4000);
+    }, 500);
   }
 }
 
-
-function closePopup() {
-  let popupContainer = document.getElementById("popupContainer");
-  if (popupContainer) {
-    popupContainer.style.opacity = "0";
-
-    setTimeout(function () {
-      popupContainer.style.display = "none";
-    }, 3000);
-  }
-}
 
 function isEmailValid(email) {
   // Regular expression to check for a valid email format
@@ -133,12 +78,56 @@ function isEmailValid(email) {
   return emailRegex.test(email);
 }
 
-let mauticFormSubmitButton = document.getElementById("mauticform_input_testform_submit");
 
-if (mauticFormSubmitButton) {
-  mauticFormSubmitButton.addEventListener("click", function () {
-    let emailInput = document.getElementById("mauticform_input_testform_business_email");
-    if (emailInput && emailInput.value.trim() !== "" && isEmailValid(emailInput.value.trim())) {
+function areFormFieldsValid() {
+  
+  let isValid = true;
+  let inputElements = document.getElementsByClassName("mauticform-input");
+
+  for (let i = 0; i < inputElements.length; i++) {
+    const input = inputElements[i];
+    const fieldValue = input.value.trim();
+    if (fieldValue === '') 
+    { // Перевірка, чи поле порожнє
+      const parentElement = input.parentElement;
+      if (parentElement.classList.contains('mauticform-required')) 
+      { // Перевірка, чи батьківський елемент має клас .mauticform-required
+        isValid = false;
+        break;
+      }
+    } else
+    { // Перевірка чи поле є почтою
+        const isEmailField = input.closest("[data-validation-type='email']");
+        if(isEmailField && !isEmailValid(fieldValue)) {
+          isValid = false;
+          break;
+        }
+    }
+  }
+  return isValid;
+}
+
+
+// Adding click event listener to all 'cta' elements to open the popup
+ctaElements.forEach(function (element) {
+  element.addEventListener("click", openPopup);
+});
+
+
+// Event listener to close the popup when clicking outside it
+document.addEventListener("click", function (event) {
+  if (!popupContainer.contains(event.target) && !event.target.classList.contains("cta")) {
+    closePopup();
+  }
+});
+
+
+// Adding click event listener to the mauticFormSubmitButton
+if (mauticFormSubmitButton) 
+{
+  mauticFormSubmitButton.addEventListener("click", function () 
+  {
+    if (areFormFieldsValid()) {
       // Check if the element with ID "GoScheduleLink" exists on the page
       let goScheduleLink = document.getElementById("GoScheduleLink");
       if (goScheduleLink) {
@@ -153,8 +142,14 @@ if (mauticFormSubmitButton) {
         }, 1000);
       }
     } else {
-      // Delete the data-cal-link attribute if the input doesn't have a valid email address
+      // Delete the data-cal-link attribute if form fields are not valid
       mauticFormSubmitButton.removeAttribute('data-cal-link');
     }
   });
 }
+
+
+// Integrating GO Schedule
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar); return; } p(cal, ar); }; })(window, "https://schedule.cience.com/embed/embed.js", "init");
+Cal("init", { origin: "https://schedule.cience.com" });
+Cal("ui", { "styles": { "branding": { "brandColor": "#000000" } }, "hideEventTypeDetails": false });

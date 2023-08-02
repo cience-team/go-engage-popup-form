@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
+* {
+    font-family: 'Poppins', sans-serif !important;;
+}
 #popupContainer {
     display: none;
     position: fixed;
@@ -26,7 +28,7 @@
     cursor: pointer;
 }
 .mauticform_wrapper input:focus {
-        outline: none;
+    outline: none;
 }
 .mauticform-label, .mauticform-input, .mauticform-button {
     font-family: 'Poppins', sans-serif !important;
@@ -59,6 +61,7 @@
     color: #fff !important;
     border-radius: 10px !important;
     border: 2px solid #3076FF !important;
+    transition: all .3s ease;
     -webkit-tap-highlight-color: transparent;
     tap-highlight-color: transparent;
 }
@@ -81,4 +84,8 @@
 }
 #popupContainer h2 {
   	margin-bottom: 20px;
+}
+#popupContainer h3 {
+    text-align: center;
+    font-size: 22px !important;
 }
