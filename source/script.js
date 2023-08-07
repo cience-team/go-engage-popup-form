@@ -79,32 +79,19 @@ function isEmailValid(email) {
 }
 
 
-function areFormFieldsValid() {
-  
-  let isValid = true;
-  let inputElements = document.getElementsByClassName("mauticform-input");
+function hasErrors() {
+  const errorSpans = popupContainer.querySelectorAll("span.mauticform-errormsg");
+  let hasErrorsValue = false;
 
-  for (let i = 0; i < inputElements.length; i++) {
-    const input = inputElements[i];
-    const fieldValue = input.value.trim();
-    if (fieldValue === '') 
-    { // Перевірка, чи поле порожнє
-      const parentElement = input.parentElement;
-      if (parentElement.classList.contains('mauticform-required')) 
-      { // Перевірка, чи батьківський елемент має клас .mauticform-required
-        isValid = false;
-        break;
+  for (const span of errorSpans) {
+    if (span.textContent.trim() !== "") {
+      if (span.style.display !== "none") {
+        hasErrorsValue = true;
       }
-    } else
-    { // Перевірка чи поле є почтою
-        const isEmailField = input.closest("[data-validation-type='email']");
-        if(isEmailField && !isEmailValid(fieldValue)) {
-          isValid = false;
-          break;
-        }
     }
   }
-  return isValid;
+
+  return hasErrorsValue;
 }
 
 
@@ -123,28 +110,29 @@ document.addEventListener("click", function (event) {
 
 
 // Adding click event listener to the mauticFormSubmitButton
-if (mauticFormSubmitButton) 
-{
-  mauticFormSubmitButton.addEventListener("click", function () 
-  {
-    if (areFormFieldsValid()) {
-      // Check if the element with ID "GoScheduleLink" exists on the page
-      let goScheduleLink = document.getElementById("GoScheduleLink");
-      if (goScheduleLink) {
-        // If the element exists, set the data-cal-link attribute
-        mauticFormSubmitButton.setAttribute('data-cal-link', goScheduleLink.innerText);
-        setTimeout(function () {
-          closePopup();
-        }, 500);
+if (mauticFormSubmitButton) {
+  mauticFormSubmitButton.addEventListener("click", function () {
+    // Delay before executing the code to allow Mautic form to process the results
+    setTimeout(function() {
+      if (!hasErrors()) {
+        // Check if the element with ID "GoScheduleLink" exists on the page
+        let goScheduleLink = document.getElementById("GoScheduleLink");
+        if (goScheduleLink) {
+          // If the element exists, set the data-cal-link attribute
+          mauticFormSubmitButton.setAttribute('data-cal-link', goScheduleLink.innerText);
+          setTimeout(function () {
+            closePopup();
+          }, 500);
+        } else {
+          setTimeout(function () {
+            displayMessage(customPopupConfig);
+          }, 1000);
+        }
       } else {
-        setTimeout(function () {
-          displayMessage(customPopupConfig);
-        }, 1000);
+        // Delete the data-cal-link attribute if form fields are not valid
+        mauticFormSubmitButton.removeAttribute('data-cal-link');
       }
-    } else {
-      // Delete the data-cal-link attribute if form fields are not valid
-      mauticFormSubmitButton.removeAttribute('data-cal-link');
-    }
+    }, 200);
   });
 }
 
