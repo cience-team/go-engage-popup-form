@@ -33,14 +33,14 @@ function closePopup() {
 
 // Function to display "Thank you" message in the popup
 function displayMessage(customPopupConfig) {
-  let form_wrapper = document.getElementsByClassName("mauticform_wrapper")[0];
-  if (form_wrapper) {
+  let innerform = document.getElementsByClassName("mauticform-innerform")[0];
+  if (innerform) {
 
     // Set opacity to 0 to start the smooth fade-out
-    form_wrapper.style.opacity = "0";
+    innerform.style.opacity = "0";
 
     setTimeout(function () {
-      form_wrapper.style.display = "none";
+      innerform.style.display = "none";
       
       // Create a new element for the animated checkmark
       var checkmarkElement = document.createElement("div");
@@ -109,31 +109,53 @@ document.addEventListener("click", function (event) {
 });
 
 
-// Adding click event listener to the mauticFormSubmitButton
+let goScheduleLink = document.getElementById("GoScheduleLink");
+
+if(goScheduleLink) {
+
+  let goScheduleButton = document.createElement("button");
+
+  // Встановлюємо атрибути для нового елементу
+  goScheduleButton.id = "goScheduleButton";
+  goScheduleButton.style.display = "none";
+  goScheduleButton.setAttribute("data-cal-link", goScheduleLink.innerText);
+
+  // Вставляємо новий елемент після елемента з ID "GoScheduleLink"
+  goScheduleLink.parentNode.insertBefore(goScheduleButton, goScheduleLink.nextSibling);
+}
+
+  
+
+// Function to simulate the hasErrors() method with a delay
+async function asyncHasErrors() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(hasErrors());
+        }, 100);
+    });
+}
+  
 if (mauticFormSubmitButton) {
-  mauticFormSubmitButton.addEventListener("click", function () {
-    // Delay before executing the code to allow Mautic form to process the results
-    setTimeout(function() {
-      if (!hasErrors()) {
-        // Check if the element with ID "GoScheduleLink" exists on the page
-        let goScheduleLink = document.getElementById("GoScheduleLink");
+    mauticFormSubmitButton.addEventListener("click", async function () {
         if (goScheduleLink) {
-          // If the element exists, set the data-cal-link attribute
-          mauticFormSubmitButton.setAttribute('data-cal-link', goScheduleLink.innerText);
-          setTimeout(function () {
-            closePopup();
-          }, 500);
+            if (!await asyncHasErrors()) {
+                setTimeout(function () {
+                    closePopup();
+                }, 1000);
+                setTimeout(function () {
+                	goScheduleButton.click();
+                }, 1500);
+            }
         } else {
-          setTimeout(function () {
-            displayMessage(customPopupConfig);
-          }, 1000);
+            setTimeout(function() {
+                if (!hasErrors()) {
+                  setTimeout(function () {
+                      displayMessage(customPopupConfig);
+                  }, 1000);
+                }
+            }, 200);
         }
-      } else {
-        // Delete the data-cal-link attribute if form fields are not valid
-        mauticFormSubmitButton.removeAttribute('data-cal-link');
-      }
-    }, 200);
-  });
+    });
 }
 
 
