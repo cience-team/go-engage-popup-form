@@ -7,27 +7,32 @@ var customPopupConfig = {
 const ctaElements = document.querySelectorAll(".cta");
 const popupContainer = document.getElementById("popupContainer");
 const mauticFormSubmitButton = document.getElementsByName("mauticform[submit]")[0];
+const mauticFormWrapper = document.getElementsByClassName("mauticform_wrapper")[0];
 
 
 // Function to open the popup
 function openPopup() {
   event.preventDefault();
 
-  setTimeout(function () {
-    popupContainer.style.opacity = "1";
-  }, 10);
-
-  popupContainer.style.display = "block";
+  if(popupContainer) {
+    setTimeout(function () {
+      popupContainer.style.opacity = "1";
+    }, 10);
+  
+    popupContainer.style.display = "block";
+  }
 }
 
 
 // Function to close the popup
 function closePopup() {
-  popupContainer.style.opacity = "0";
+  if(popupContainer) {
+    popupContainer.style.opacity = "0";
 
-  setTimeout(function () {
-    popupContainer.style.display = "none";
-  }, 500);
+    setTimeout(function () {
+      popupContainer.style.display = "none";
+    }, 500);
+  }
 }
 
 
@@ -45,7 +50,7 @@ function displayMessage(customPopupConfig) {
       // Create a new element for the animated checkmark
       var checkmarkElement = document.createElement("div");
       checkmarkElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animated-checkmark"><path d="M5 13l4 4L19 7"></path></svg>';
-      popupContainer.appendChild(checkmarkElement);
+      mauticFormWrapper.appendChild(checkmarkElement);
       
       // Add the animation class to the checkmark element
       checkmarkElement.classList.add("animated-checkmark");
@@ -61,8 +66,8 @@ function displayMessage(customPopupConfig) {
       titleElement.textContent = customPopupConfig.title;
       subtitleElement.textContent = customPopupConfig.subtitle;
       
-      popupContainer.appendChild(titleElement);
-      popupContainer.appendChild(subtitleElement);
+      mauticFormWrapper.appendChild(titleElement);
+      mauticFormWrapper.appendChild(subtitleElement);
       
       setTimeout(function () {
         closePopup();
@@ -80,7 +85,7 @@ function isEmailValid(email) {
 
 
 function hasErrors() {
-  const errorSpans = popupContainer.querySelectorAll("span.mauticform-errormsg");
+  const errorSpans = mauticFormWrapper.querySelectorAll("span.mauticform-errormsg");
   let hasErrorsValue = false;
 
   for (const span of errorSpans) {
@@ -103,8 +108,10 @@ ctaElements.forEach(function (element) {
 
 // Event listener to close the popup when clicking outside it
 document.addEventListener("click", function (event) {
-  if (!popupContainer.contains(event.target) && !event.target.classList.contains("cta")) {
-    closePopup();
+  if(popupContainer) {
+    if (!popupContainer.contains(event.target) && !event.target.classList.contains("cta")) {
+      closePopup();
+    }
   }
 });
 
