@@ -90,3 +90,44 @@
     text-align: center;
     font-size: 22px !important;
 }
+.mauticform-radiogrp-row {
+    position: relative;
+}
+.mauticform-radiogrp-radio {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    margin: 5px auto;
+}
+.mauticform-radiogrp-label {
+    position: relative;
+    padding-left: 30px; /* Відступ для кружка */
+    cursor: pointer;
+}
+.mauticform-radiogrp-label::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border: 1px solid #007BFF;
+    border-radius: 50%;
+    background-color: transparent;
+}
+.mauticform-radiogrp-label::after {
+	content: '';
+    position: absolute;
+    top: 50%;
+    left: 1px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+  	background-color: transparent;
+}
+.mauticform-radiogrp-radio:checked ~ .mauticform-radiogrp-label::before {
+  background-color: #007BFF;
+}
