@@ -8,13 +8,13 @@ To use this project and integrate the Go Engage popup form on your website, foll
 
 ### Step 1: Include the Styles
 
-Add the following code to the `<head>` section of your HTML document:
+Add the following code to the `<head>` section of your HTML document. In addition, you're free to adjust button styles.
 
 ```html
 <!-- Popup Form Styles -->
 <link rel="stylesheet" type="text/css" href="https://cience-team.github.io/go-engage-popup-form/dist/styles.min.css">
 <style>
-    /* Custom styles for the Go Engage form button */
+    /* Custom styles for form button */
     .mauticform-button {
         background: #3076FF !important;
         border: 2px solid #3076FF !important;
@@ -25,6 +25,17 @@ Add the following code to the `<head>` section of your HTML document:
     }
 </style>
 <!-- -->
+```
+
+**Optional:** Additionally, you have the option to update the styles of radio buttons
+```css
+    /* Custom styles for radio buttons */
+    .mauticform-radiogrp-label::before {
+        border: 1px solid red;
+    }
+    .mauticform-radiogrp-radio:checked ~ .mauticform-radiogrp-label::before {
+      background-color: red;
+    }
 ```
 
 ### Step 2: Add the Popup Container
@@ -49,6 +60,12 @@ Add the following code at the end of the `<body>` section of your HTML document,
 ```html
 <!-- Popup Form Scripts -->
 <script src="https://cience-team.github.io/go-engage-popup-form/dist/script.min.js"></script>
+<script>
+customPopupConfig = {
+    title: "Thanks for your submission!",
+    subtitle: "Our team will get in touch with you shortly!"
+ };
+</script>
 ```
 
 ### Step 4: Customize (Optional)
