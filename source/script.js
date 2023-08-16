@@ -43,36 +43,34 @@ function displayMessage(customPopupConfig) {
 
     // Set opacity to 0 to start the smooth fade-out
     innerform.style.opacity = "0";
+    innerform.style.display = "none";
+
+      
+    // Create a new element for the animated checkmark
+    var checkmarkElement = document.createElement("div");
+    checkmarkElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animated-checkmark"><path d="M5 13l4 4L19 7"></path></svg>';
+    mauticFormWrapper.appendChild(checkmarkElement);
+
+    // Add the animation class to the checkmark element
+    checkmarkElement.classList.add("animated-checkmark");
+
+    // Listen for the animationend event to remove the animation class after it finishes playing
+    checkmarkElement.addEventListener("animationend", function () {
+      checkmarkElement.classList.remove("animated-checkmark");
+    });
+
+    var titleElement = document.createElement("h2");
+    var subtitleElement = document.createElement("p");
+
+    titleElement.textContent = customPopupConfig.title;
+    subtitleElement.textContent = customPopupConfig.subtitle;
+
+    mauticFormWrapper.appendChild(titleElement);
+    mauticFormWrapper.appendChild(subtitleElement);
 
     setTimeout(function () {
-      innerform.style.display = "none";
-      
-      // Create a new element for the animated checkmark
-      var checkmarkElement = document.createElement("div");
-      checkmarkElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animated-checkmark"><path d="M5 13l4 4L19 7"></path></svg>';
-      mauticFormWrapper.appendChild(checkmarkElement);
-      
-      // Add the animation class to the checkmark element
-      checkmarkElement.classList.add("animated-checkmark");
-      
-      // Listen for the animationend event to remove the animation class after it finishes playing
-      checkmarkElement.addEventListener("animationend", function () {
-        checkmarkElement.classList.remove("animated-checkmark");
-      });
-      
-      var titleElement = document.createElement("h2");
-      var subtitleElement = document.createElement("p");
-      
-      titleElement.textContent = customPopupConfig.title;
-      subtitleElement.textContent = customPopupConfig.subtitle;
-      
-      mauticFormWrapper.appendChild(titleElement);
-      mauticFormWrapper.appendChild(subtitleElement);
-      
-      setTimeout(function () {
-        closePopup();
-      }, 4000);
-    }, 500);
+      closePopup();
+    }, 4000);
   }
 }
 
@@ -138,7 +136,7 @@ async function asyncHasErrors() {
     return new Promise(resolve => {
         setTimeout(() => {
             resolve(hasErrors());
-        }, 100);
+        }, 1000);
     });
 }
   
@@ -147,11 +145,11 @@ if (mauticFormSubmitButton) {
         if (goScheduleLink) {
             if (!await asyncHasErrors()) {
                 setTimeout(function () {
-                    closePopup();
+                	goScheduleButton.click();
                 }, 1000);
                 setTimeout(function () {
-                	goScheduleButton.click();
-                }, 1500);
+                    closePopup();
+                }, 2000);
             }
         } else {
             setTimeout(function() {
