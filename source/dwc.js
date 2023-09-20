@@ -1,16 +1,22 @@
-const elements = document.querySelectorAll('#dwc_container > div');
+const dwcContainer = document.querySelector('#dwc_container');
 
-function replaceSpanWithText(element) {
-  const elementClass = element.className;
+if (dwcContainer) {
+  const elements = dwcContainer.querySelectorAll('div');
 
-  const matchingP = element.querySelector('p');
+  function replaceSpanWithText(element) {
+    const matchingP = element.querySelector('p');
 
-  const matchingSpans = document.querySelectorAll(`span.${elementClass}`);
+    if (matchingP) {
+      const elementClass = element.className;
 
-  matchingSpans.forEach((span) => {
-    const newText = document.createTextNode(matchingP.textContent);
-    span.parentNode.replaceChild(newText, span);
-  });
+      const matchingSpans = dwcContainer.querySelectorAll(`span.${elementClass}`);
+
+      matchingSpans.forEach((span) => {
+        const newText = document.createTextNode(matchingP.textContent);
+        span.parentNode.replaceChild(newText, span);
+      });
+    }
+  }
+
+  elements.forEach(replaceSpanWithText);
 }
-
-elements.forEach(replaceSpanWithText);
